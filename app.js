@@ -1,31 +1,33 @@
 require('dotenv').config()
-const express = require('express')
+
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
+const express = require('express')
 const app = express()
-app.use(bodyParser.json())
-
-
-// import routes
-const postsRoute = require('./routes/posts')
-const userRoute = require('./routes/user')
-
-app.use('/posts', postsRoute)
-app.use('/user', userRoute)
-
-
-//routes
-app.get('/',(req,res)=>{
-    res.send('Home Page')
-})
-
-
 
 // connect to DB
-mongoose.connect(
-  "mongodb+srv://Venceyv:as84pvqyRQEoPEJn@restapi.0e5wm.mongodb.net/myFirstDatabase"
-)
-app.listen(3000, ()=>{
-    console.log("Server Running");
+mongoose.connect(process.env.DB_URL)
+const db = mongoose.connection
+db.on('error', (err) => console.error(err))
+db.once('open', ()=>{console.log('Connected to Database')})
+
+// middleware
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(cors())
+
+
+const NBAplayerRoute = require('./routes/NBAplayers')
+app.use('/NBAplayers', NBAplayerRoute)
+
+app.get('/',(req,res)=>{
+    res.send('NBA Players Home Page')
 })
+
+app.listen(3000, ()=>{console.log("Server Running")})
+
+
+
+
