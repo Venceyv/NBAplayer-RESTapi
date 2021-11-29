@@ -84,23 +84,24 @@ router.post("/", async (req, res) => {
 router.patch("/:id"),
   getPlayer,
   async (req, res) => {
+    const {name, team,number,age,injury,championship} = req.body
     if (req.body.name != null) {
-      res.player.name = req.body.name
+      res.player.name = name
     }
     if (req.body.team != null) {
-      res.player.team = req.body.team
+      res.player.team = team
     }
     if (req.body.number != null) {
-      res.player.number = req.body.number
+      res.player.number = number
     }
     if (req.body.age != null) {
-      res.player.age = req.body.age
+      res.player.age = age
     }
     if (req.body.injury != null) {
-      res.player.injury = req.body.injury
+      res.player.injury = injury
     }
     if (req.body.championship != null) {
-      res.player.championship = req.body.championship
+      res.player.championship = championship
     }
 
     try {
